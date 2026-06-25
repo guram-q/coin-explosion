@@ -1,74 +1,54 @@
 (async () => {
-    const canvasContainer = document.getElementById("canvasContainer");
+  const canvasContainer = document.getElementById("canvasContainer");
 
-    const app = new PIXI.Application();
+  document.getElementById("version").textContent = "Version: " + window.COIN_EXPLOSION.VERSION;
 
-    await app.init({
-        background: "#050505",
-        resizeTo: canvasContainer,
-        antialias: true
-    });
+  const app = new PIXI.Application();
 
-    canvasContainer.appendChild(app.canvas);
+  await app.init({
+    background: "#050505",
+    resizeTo: canvasContainer,
+    antialias: true
+  });
 
-    const SpineClass = window.spinePixi?.Spine || window.spine?.Spine;
+  canvasContainer.appendChild(app.canvas);
 
-    const SPINE_JSON = "./assets/coin/coin_anim.json";
-    const SPINE_ATLAS = "./assets/coin/coin_anim.atlas";
-    const ANIMATION_NAME = "coin_anim";
+  const SpineClass = window.spinePixi?.Spine || window.spine?.Spine;
 
-    await PIXI.Assets.load([SPINE_JSON, SPINE_ATLAS]);
+  if (!SpineClass) {
+    console.error("Spine runtime not found.");
+    alert("Spine runtime not found. Check script loading order.");
+    return;
+  }
 
-    let particles = [];
+  const spineConfig = window.COIN_EXPLOSION.SPINE;
 
-    function spawnParticles() {
-        for (const p of particles) {
-            app.stage.removeChild(p.view);
-            p.view.destroy();
-        }
+  await PIXI.Assets.load([
+    spineConfig.json,
+    spineConfig.atlas
+  ]);
 
-        particles = [];
+  const particleSystem = new window.COIN_EXPLOSION.ParticleSystem(app, SpineClass);
 
-        const count = Number(document.getElementById("particleCount").value);
-        const velocity = Number(document.getElementById("velocity").value);
-        const gravity = Number(document.getElementById("gravity").value);
+  function play() {
+    const settings = window.COIN_EXPLOSION.UI.getSettings();
+    particleSystem.play(settings);
+  }
 
-        for (let i = 0; i < count; i++) {
-            const coin = SpineClass.from({
-                skeleton: SPINE_JSON,
-                atlas: SPINE_ATLAS
-            });
+  document.getElementById("playButton").addEventListener("click", play);
 
-            coin.x = app.screen.width / 2;
-            coin.y = app.screen.height / 2;
-            coin.scale.set(0.6);
-            coin.state.setAnimation(0, ANIMATION_NAME, true);
+  document.getElementById("exportButton").addEventListener("click", () => {
+    const settings = window.COIN_EXPLOSION.UI.getSettings();
+    const json = window.COIN_EXPLOSION.exportSettings(settings);
+    window.COIN_EXPLOSION.UI.setExportText(json);
+  });
 
-            const angle = Math.random() * Math.PI * 2;
-            const speed = velocity * (0.5 + Math.random());
+  app.ticker.add((ticker) => {
+    const dt = ticker.deltaMS / 1000;
+    particleSystem.update(dt);
+  });
 
-            particles.push({
-                view: coin,
-                vx: Math.cos(angle) * speed,
-                vy: Math.sin(angle) * speed,
-                gravity
-            });
+  play();
 
-            app.stage.addChild(coin);
-        }
-    }
-
-    app.ticker.add((ticker) => {
-        const dt = ticker.deltaMS / 1000;
-
-        for (const p of particles) {
-            p.vy += p.gravity * dt;
-            p.view.x += p.vx * dt;
-            p.view.y += p.vy * dt;
-        }
-    });
-
-    document.getElementById("playButton").addEventListener("click", spawnParticles);
-
-    spawnParticles();
+  console.log("Coin Explosion initialized", window.COIN_EXPLOSION.VERSION);
 })();

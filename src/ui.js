@@ -1,0 +1,22 @@
+window.COIN_EXPLOSION = window.COIN_EXPLOSION || {};
+
+window.COIN_EXPLOSION.UI = {
+  getSettings() {
+    return {
+      particleCount: Number(document.getElementById("particleCount").value),
+      velocity: Number(document.getElementById("velocity").value),
+      velocityRandomness: Number(document.getElementById("velocityRandomness").value),
+      gravity: Number(document.getElementById("gravity").value),
+      lifetime: Number(document.getElementById("lifetime").value),
+      startScale: Number(document.getElementById("startScale").value),
+      endScale: Number(document.getElementById("endScale").value),
+      startOpacity: Number(document.getElementById("startOpacity").value),
+      endOpacity: Number(document.getElementById("endOpacity").value),
+      rotationSpeed: Number(document.getElementById("rotationSpeed").value)
+    };
+  },
+
+  setExportText(text) {
+    document.getElementById("exportOutput").value = text;
+  }
+};
