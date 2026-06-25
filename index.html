@@ -1,17 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coin Explosion</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coin Explosion</title>
+  <link rel="stylesheet" href="./style.css">
 </head>
 <body>
 
-<h1>Coin Explosion</h1>
+<div class="app">
+  <aside class="panel">
+    <h1>Coin Explosion</h1>
 
-<p>If you can read this, GitHub Pages works.</p>
+    <label>Particle Count</label>
+    <input id="particleCount" type="number" value="30">
 
-<script type="module" src="./src/main.js"></script>
+    <label>Initial Velocity</label>
+    <input id="velocity" type="number" value="400">
 
+    <label>Gravity</label>
+    <input id="gravity" type="number" value="800">
+
+    <button id="playButton">Play</button>
+    <button id="exportButton">Export JSON</button>
+  </aside>
+
+  <main class="preview">
+    <div id="canvasContainer"></div>
+  </main>
+</div>
+
+<script type="module" src="./src/main.js?v=2"></script>
 </body>
 </html>
