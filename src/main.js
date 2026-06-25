@@ -1,52 +1,51 @@
-import { Application, Assets } from "https://cdn.jsdelivr.net/npm/pixi.js@8.9.2/+esm";
-import { Spine } from "https://cdn.jsdelivr.net/npm/@esotericsoftware/spine-pixi-v8@4.3.9/+esm";
-import { SPINE } from "./settings.js";
+(async () => {
+    const canvasContainer = document.getElementById("canvasContainer");
 
-const canvasContainer = document.getElementById("canvasContainer");
+    const app = new PIXI.Application();
 
-const app = new Application();
+    await app.init({
+        background: "#050505",
+        resizeTo: canvasContainer,
+        antialias: true
+    });
 
-await app.init({
-    background: "#050505",
-    resizeTo: canvasContainer,
-    antialias: true
-});
+    canvasContainer.appendChild(app.canvas);
 
-canvasContainer.appendChild(app.canvas);
+    console.log("PixiJS initialized");
 
-console.log("PixiJS initialized");
-console.log("Loading:", SPINE);
+    const SPINE_JSON = "./assets/coin/coin_anim.json";
+    const SPINE_ATLAS = "./assets/coin/coin_anim.atlas";
+    const ANIMATION_NAME = "coin_anim";
 
-Assets.add({
-    alias: "coinData",
-    src: SPINE.json,
-    data: {
-        spineAtlasFile: SPINE.atlas
-    }
-});
+    await PIXI.Assets.load([
+        SPINE_JSON,
+        SPINE_ATLAS
+    ]);
 
-await Assets.load("coinData");
+    const coin = spinePixi.Spine.from({
+        skeleton: SPINE_JSON,
+        atlas: SPINE_ATLAS
+    });
 
-console.log("Spine data loaded");
-
-const coin = Spine.from({
-    skeleton: "coinData",
-    atlas: "coinData"
-});
-
-coin.x = app.screen.width / 2;
-coin.y = app.screen.height / 2;
-coin.scale.set(1);
-
-coin.state.setAnimation(0, SPINE.animation, true);
-
-app.stage.addChild(coin);
-
-window.addEventListener("resize", () => {
     coin.x = app.screen.width / 2;
     coin.y = app.screen.height / 2;
-});
+    coin.scale.set(1);
 
-document.getElementById("playButton").addEventListener("click", () => {
-    coin.state.setAnimation(0, SPINE.animation, true);
-});
+    app.stage.addChild(coin);
+
+    console.log(
+        "Animations:",
+        coin.skeleton.data.animations.map(a => a.name)
+    );
+
+    coin.state.setAnimation(0, ANIMATION_NAME, true);
+
+    window.addEventListener("resize", () => {
+        coin.x = app.screen.width / 2;
+        coin.y = app.screen.height / 2;
+    });
+
+    document.getElementById("playButton").addEventListener("click", () => {
+        coin.state.setAnimation(0, ANIMATION_NAME, true);
+    });
+})();
