@@ -12,6 +12,7 @@ window.COIN_EXPLOSION.UI = {
       endScale: Number(document.getElementById("endScale").value),
       startOpacity: Number(document.getElementById("startOpacity").value),
       endOpacity: Number(document.getElementById("endOpacity").value),
+      rotation: Number(document.getElementById("rotation").value),
       rotationSpeed: Number(document.getElementById("rotationSpeed").value)
     };
   },

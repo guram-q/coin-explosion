@@ -4,35 +4,35 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Coin Explosion</title>
-  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./style.css?v=2.2">
 </head>
 <body>
 
 <div class="app">
   <aside class="panel">
     <h1>Coin Explosion</h1>
-    <div id="version">Version: v2.1</div>
+    <div id="version">Version: v2.2</div>
 
     <label>Particle Count</label>
-    <input id="particleCount" type="number" value="30">
+    <input id="particleCount" type="number" value="40">
 
     <label>Initial Velocity</label>
-    <input id="velocity" type="number" value="400">
+    <input id="velocity" type="number" value="500">
 
     <label>Velocity Randomness</label>
     <input id="velocityRandomness" type="number" value="0.5" step="0.1">
 
     <label>Gravity</label>
-    <input id="gravity" type="number" value="800">
+    <input id="gravity" type="number" value="700">
 
     <label>Lifetime</label>
     <input id="lifetime" type="number" value="2" step="0.1">
 
     <label>Start Scale</label>
-    <input id="startScale" type="number" value="0.6" step="0.1">
+    <input id="startScale" type="number" value="0.5" step="0.1">
 
     <label>End Scale</label>
-    <input id="endScale" type="number" value="0.2" step="0.1">
+    <input id="endScale" type="number" value="0.15" step="0.1">
 
     <label>Start Opacity</label>
     <input id="startOpacity" type="number" value="1" step="0.1">
@@ -40,13 +40,16 @@
     <label>End Opacity</label>
     <input id="endOpacity" type="number" value="0" step="0.1">
 
+    <label>Start Rotation Randomness</label>
+    <input id="rotation" type="number" value="360">
+
     <label>Rotation Speed</label>
-    <input id="rotationSpeed" type="number" value="180">
+    <input id="rotationSpeed" type="number" value="360">
 
     <button id="playButton">Play</button>
     <button id="exportButton">Export JSON</button>
 
-    <textarea id="exportOutput" readonly placeholder="Exported JSON will appear here"></textarea>
+    <textarea id="exportOutput" readonly></textarea>
   </aside>
 
   <main class="preview">
@@ -57,11 +60,11 @@
 <script src="https://pixijs.download/v8.6.6/pixi.min.js"></script>
 <script src="https://unpkg.com/@esotericsoftware/spine-pixi-v8@4.3.*/dist/iife/spine-pixi-v8.js"></script>
 
-<script src="./src/settings.js?v=2.1"></script>
-<script src="./src/particles.js?v=2.1"></script>
-<script src="./src/exporter.js?v=2.1"></script>
-<script src="./src/ui.js?v=2.1"></script>
-<script src="./src/main.js?v=2.1"></script>
+<script src="./src/settings.js?v=2.2"></script>
+<script src="./src/particles.js?v=2.2"></script>
+<script src="./src/exporter.js?v=2.2"></script>
+<script src="./src/ui.js?v=2.2"></script>
+<script src="./src/main.js?v=2.2"></script>
 
 </body>
 </html>

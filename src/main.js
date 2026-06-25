@@ -1,7 +1,8 @@
 (async () => {
   const canvasContainer = document.getElementById("canvasContainer");
 
-  document.getElementById("version").textContent = "Version: " + window.COIN_EXPLOSION.VERSION;
+  document.getElementById("version").textContent =
+    "Version: " + window.COIN_EXPLOSION.VERSION;
 
   const app = new PIXI.Application();
 
@@ -16,8 +17,7 @@
   const SpineClass = window.spinePixi?.Spine || window.spine?.Spine;
 
   if (!SpineClass) {
-    console.error("Spine runtime not found.");
-    alert("Spine runtime not found. Check script loading order.");
+    alert("Spine runtime not found.");
     return;
   }
 
