@@ -17,9 +17,20 @@ canvasContainer.appendChild(app.canvas);
 console.log("PixiJS initialized");
 console.log("Loading:", SPINE);
 
+Assets.add({
+    alias: "coinData",
+    src: SPINE.json,
+    data: {
+        spineAtlasFile: SPINE.atlas
+    }
+});
+
+await Assets.load("coinData");
+
+console.log("Spine data loaded");
+
 const coin = Spine.from({
-    skeleton: SPINE.json,
-    atlas: SPINE.atlas
+    skeleton: "coinData"
 });
 
 coin.x = app.screen.width / 2;
