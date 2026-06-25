@@ -30,7 +30,8 @@ await Assets.load("coinData");
 console.log("Spine data loaded");
 
 const coin = Spine.from({
-    skeleton: "coinData"
+    skeleton: "coinData",
+    atlas: "coinData"
 });
 
 coin.x = app.screen.width / 2;
