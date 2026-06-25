@@ -15,13 +15,16 @@ await app.init({
 canvasContainer.appendChild(app.canvas);
 
 console.log("PixiJS initialized");
+console.log("Loading:", SPINE);
 
-Assets.add({ alias: "coinSkeleton", src: SPINE.json });
-Assets.add({ alias: "coinAtlas", src: SPINE.atlas });
+Assets.addBundle("coinBundle", {
+    coinSkeleton: SPINE.json,
+    coinAtlas: SPINE.atlas
+});
 
-await Assets.load(["coinSkeleton", "coinAtlas"]);
+await Assets.loadBundle("coinBundle");
 
-console.log("Assets loaded");
+console.log("Bundle loaded");
 
 const coin = Spine.from({
     skeleton: "coinSkeleton",
@@ -43,22 +46,4 @@ window.addEventListener("resize", () => {
 
 document.getElementById("playButton").addEventListener("click", () => {
     coin.state.setAnimation(0, SPINE.animation, true);
-});
-
-document.getElementById("exportButton").addEventListener("click", () => {
-    const data = {
-        spine: SPINE,
-        particleCount: Number(document.getElementById("particleCount").value),
-        velocity: Number(document.getElementById("velocity").value),
-        gravity: Number(document.getElementById("gravity").value)
-    };
-
-    const blob = new Blob([JSON.stringify(data, null, 2)], {
-        type: "application/json"
-    });
-
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = "coin_explosion_settings.json";
-    a.click();
 });
