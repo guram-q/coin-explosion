@@ -1,46 +1,78 @@
-import { Application, Graphics } from "https://cdn.jsdelivr.net/npm/pixi.js@8.9.2/+esm";
+import { Application, Assets } from "https://cdn.jsdelivr.net/npm/pixi.js@8.9.2/+esm";
+import { Spine } from "https://cdn.jsdelivr.net/npm/@esotericsoftware/spine-pixi-v8@4.3.9/+esm";
+
+import { SPINE } from "./settings.js";
 
 const canvasContainer = document.getElementById("canvasContainer");
 
-// Create Pixi application
 const app = new Application();
 
 await app.init({
-    background: "#151515",
+    background: "#050505",
     resizeTo: canvasContainer,
     antialias: true
 });
 
-// Add canvas to the page
 canvasContainer.appendChild(app.canvas);
 
 console.log("PixiJS initialized");
 
-// Create center marker
-const centerMarker = new Graphics();
+// Load Spine files
+await Assets.load([
+    {
+        alias: "coinSkeleton",
+        src: SPINE.json
+    },
+    {
+        alias: "coinAtlas",
+        src: SPINE.atlas
+    }
+]);
 
-centerMarker.circle(0, 0, 5);
-centerMarker.fill(0xffaa00);
+console.log("Spine files loaded");
 
-centerMarker.x = app.screen.width / 2;
-centerMarker.y = app.screen.height / 2;
+// Create Spine animation
+const coin = Spine.from({
+    skeleton: "coinSkeleton",
+    atlas: "coinAtlas"
+});
 
-app.stage.addChild(centerMarker);
+coin.x = app.screen.width / 2;
+coin.y = app.screen.height / 2;
+coin.scale.set(1);
 
-// Keep marker centered after resize
-function updateCenterMarker() {
-    centerMarker.x = app.screen.width / 2;
-    centerMarker.y = app.screen.height / 2;
+coin.state.setAnimation(0, SPINE.animation, true);
+
+app.stage.addChild(coin);
+
+// Keep centered on resize
+function centerCoin() {
+    coin.x = app.screen.width / 2;
+    coin.y = app.screen.height / 2;
 }
 
-window.addEventListener("resize", updateCenterMarker);
+window.addEventListener("resize", centerCoin);
 
 // Play button
 document.getElementById("playButton").addEventListener("click", () => {
-    console.log("Play clicked");
+    coin.state.setAnimation(0, SPINE.animation, true);
 });
 
 // Export button
 document.getElementById("exportButton").addEventListener("click", () => {
-    console.log("Export clicked");
+    const data = {
+        spine: SPINE,
+        particleCount: Number(document.getElementById("particleCount").value),
+        velocity: Number(document.getElementById("velocity").value),
+        gravity: Number(document.getElementById("gravity").value)
+    };
+
+    const blob = new Blob([JSON.stringify(data, null, 2)], {
+        type: "application/json"
+    });
+
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "coin_explosion_settings.json";
+    a.click();
 });
