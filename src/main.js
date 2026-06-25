@@ -12,6 +12,14 @@
     canvasContainer.appendChild(app.canvas);
 
     console.log("PixiJS initialized");
+    console.log("window.spinePixi:", window.spinePixi);
+    console.log("window.spine:", window.spine);
+
+    const SpineClass = window.spinePixi?.Spine || window.spine?.Spine;
+
+    if (!SpineClass) {
+        throw new Error("Spine class not found. Runtime script did not load correctly.");
+    }
 
     const SPINE_JSON = "./assets/coin/coin_anim.json";
     const SPINE_ATLAS = "./assets/coin/coin_anim.atlas";
@@ -22,9 +30,9 @@
         SPINE_ATLAS
     ]);
 
-    const spineInstance = PIXI.spine.Spine.from({
-    skeleton: SPINE_JSON,
-    atlas: SPINE_ATLAS,
+    const coin = SpineClass.from({
+        skeleton: SPINE_JSON,
+        atlas: SPINE_ATLAS
     });
 
     coin.x = app.screen.width / 2;
