@@ -1,4 +1,4 @@
-import { Application } from "https://cdn.jsdelivr.net/npm/pixi.js@8.9.2/+esm";
+import { Application, Assets } from "https://cdn.jsdelivr.net/npm/pixi.js@8.9.2/+esm";
 import { Spine } from "https://cdn.jsdelivr.net/npm/@esotericsoftware/spine-pixi-v8@4.3.9/+esm";
 import { SPINE } from "./settings.js";
 
@@ -16,9 +16,16 @@ canvasContainer.appendChild(app.canvas);
 
 console.log("PixiJS initialized");
 
-const coin = await Spine.from({
-    skeleton: SPINE.json,
-    atlas: SPINE.atlas
+Assets.add({ alias: "coinSkeleton", src: SPINE.json });
+Assets.add({ alias: "coinAtlas", src: SPINE.atlas });
+
+await Assets.load(["coinSkeleton", "coinAtlas"]);
+
+console.log("Assets loaded");
+
+const coin = Spine.from({
+    skeleton: "coinSkeleton",
+    atlas: "coinAtlas"
 });
 
 coin.x = app.screen.width / 2;
@@ -29,12 +36,10 @@ coin.state.setAnimation(0, SPINE.animation, true);
 
 app.stage.addChild(coin);
 
-function centerCoin() {
+window.addEventListener("resize", () => {
     coin.x = app.screen.width / 2;
     coin.y = app.screen.height / 2;
-}
-
-window.addEventListener("resize", centerCoin);
+});
 
 document.getElementById("playButton").addEventListener("click", () => {
     coin.state.setAnimation(0, SPINE.animation, true);
