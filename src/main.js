@@ -22,9 +22,9 @@
         SPINE_ATLAS
     ]);
 
-    const coin = spinePixi.Spine.from({
-        skeleton: SPINE_JSON,
-        atlas: SPINE_ATLAS
+    const spineInstance = PIXI.spine.Spine.from({
+    skeleton: SPINE_JSON,
+    atlas: SPINE_ATLAS,
     });
 
     coin.x = app.screen.width / 2;
