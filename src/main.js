@@ -1,6 +1,7 @@
 import { Application, Assets } from "https://cdn.jsdelivr.net/npm/pixi.js@8.9.2/+esm";
 import "https://cdn.jsdelivr.net/npm/@esotericsoftware/spine-pixi-v8@4.3.9/+esm";
 import { Spine } from "https://cdn.jsdelivr.net/npm/@esotericsoftware/spine-pixi-v8@4.3.9/+esm";
+import { SPINE } from "./settings.js";
 
 const canvasContainer = document.getElementById("canvasContainer");
 
