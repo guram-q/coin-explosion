@@ -3,6 +3,7 @@ window.COIN_EXPLOSION = window.COIN_EXPLOSION || {};
 window.COIN_EXPLOSION.UI = {
   getSettings() {
     return {
+      worldScale: Number(document.getElementById("worldScale").value),
       particleCount: Number(document.getElementById("particleCount").value),
       velocity: Number(document.getElementById("velocity").value),
       velocityRandomness: Number(document.getElementById("velocityRandomness").value),

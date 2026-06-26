@@ -28,7 +28,10 @@
     spineConfig.atlas
   ]);
 
-  const particleSystem = new window.COIN_EXPLOSION.ParticleSystem(app, SpineClass);
+  const particleSystem = new window.COIN_EXPLOSION.ParticleSystem(
+    app,
+    SpineClass
+  );
 
   function play() {
     const settings = window.COIN_EXPLOSION.UI.getSettings();
@@ -45,6 +48,14 @@
 
   app.ticker.add((ticker) => {
     const dt = ticker.deltaMS / 1000;
+    const settings = window.COIN_EXPLOSION.UI.getSettings();
+
+    particleSystem.container.scale.set(settings.worldScale || 1);
+    particleSystem.container.position.set(
+      app.screen.width / 2,
+      app.screen.height / 2
+    );
+
     particleSystem.update(dt);
   });
 
