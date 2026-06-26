@@ -235,7 +235,6 @@ window.COIN_EXPLOSION.ParticleSystem = class {
           }
         }
       ],
-      ],
       animations: {
         explosion: {
           bones: boneAnimations,
