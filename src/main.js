@@ -41,8 +41,21 @@
 
   document.getElementById("exportButton").addEventListener("click", () => {
     const settings = window.COIN_EXPLOSION.UI.getSettings();
-    const json = window.COIN_EXPLOSION.exportSettings(settings);
-    window.COIN_EXPLOSION.UI.setExportText(json);
+
+    const json = JSON.stringify(settings, null, 2);
+
+    const blob = new Blob([json], {
+      type: "application/json"
+    });
+
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "coin_explosion_settings.json";
+    a.click();
+
+    URL.revokeObjectURL(url);
   });
 
   app.ticker.add((ticker) => {
