@@ -86,18 +86,14 @@ textarea {
   height: 100%;
 }
 
-.download-note {
-  margin-top: 12px;
-  font-size: 12px;
-  line-height: 1.4;
-  color: #aaa;
-}
-
-.download-note a {
-  color: #ffd166;
-  text-decoration: none;
+.download-note a,
+.download-note a:visited {
+    color: #76d275;
+    text-decoration: none;
+    font-weight: 600;
 }
 
 .download-note a:hover {
-  text-decoration: underline;
+    color: #98e997;
+    text-decoration: underline;
 }
