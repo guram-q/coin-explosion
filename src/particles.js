@@ -147,8 +147,7 @@ window.COIN_EXPLOSION.ParticleSystem = class {
       slots.push({
         name: slotName,
         bone: boneName,
-        color: "ffffffff",
-        attachment: "coins_00000"
+        color: "ffffffff"
       });
 
       boneAnimations[boneName] = {
@@ -221,18 +220,7 @@ window.COIN_EXPLOSION.ParticleSystem = class {
       skins: [
         {
           name: "default",
-          attachments: {
-            coins_00000: {
-              coins_00000: {
-                type: "region",
-                path: "coins/coins_00000",
-                x: 0,
-                y: 0,
-                width: 128,
-                height: 128
-              }
-            }
-          }
+          attachments: {}
         }
       ],
       animations: {
