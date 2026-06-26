@@ -43,19 +43,24 @@ window.COIN_EXPLOSION.ParticleSystem = class {
 
       const angle = Math.random() * Math.PI * 2;
 
-      const velocityMultiplier = this.randomRange(
-        1 - settings.velocityRandomness,
-        1 + settings.velocityRandomness
+      const speed =
+        settings.velocity *
+        this.randomRange(
+          1 - settings.velocityRandomness,
+          1 + settings.velocityRandomness
+        );
+
+      const lifetime =
+        settings.lifetime *
+        this.randomRange(
+          1 - settings.lifetimeRandomness,
+          1 + settings.lifetimeRandomness
+        );
+
+      const startRotation = this.randomRange(
+        -settings.rotation,
+        settings.rotation
       );
-
-      const speed = settings.velocity * velocityMultiplier;
-
-      const lifetime = settings.lifetime * this.randomRange(
-        1 - settings.lifetimeRandomness,
-        1 + settings.lifetimeRandomness
-      );
-
-      const startRotation = this.randomRange(-settings.rotation, settings.rotation);
 
       const rotationSpeed = this.randomRange(
         -settings.rotationSpeed,
@@ -82,14 +87,12 @@ window.COIN_EXPLOSION.ParticleSystem = class {
         rotationSpeed
       };
 
-      const particle = {
+      this.particles.push({
         view: particleSpine,
         ...particleData
-      };
+      });
 
-      this.particles.push(particle);
       this.exportParticles.push({ ...particleData });
-
       this.container.addChild(particleSpine);
     }
   }
@@ -103,7 +106,6 @@ window.COIN_EXPLOSION.ParticleSystem = class {
       const progress = Math.min(p.age / p.lifetime, 1);
 
       p.vy += p.gravity * dt;
-
       p.x += p.vx * dt;
       p.y += p.vy * dt;
 
@@ -130,20 +132,24 @@ window.COIN_EXPLOSION.ParticleSystem = class {
     const duration = settings.lifetime * (1 + settings.lifetimeRandomness);
     const totalFrames = Math.ceil(duration * fps);
 
-    const imageBasePath = "coins/coins_";
+    const spineVersion = settings.spineVersion || "4.3.21";
+
+    const imageAttachment = "coins/coins_";
     const imageFrameCount = 14;
     const imageStart = 0;
     const imageDigits = 5;
     const imageWidth = 144;
     const imageHeight = 142;
-    const imageDelay = 1 / fps;
 
     const bones = [{ name: "root" }];
     const slots = [];
     const skinAttachments = {};
+
     const boneAnimations = {};
-    const slotColorAnimations = {};
-    const sequenceAnimations = {};
+    const slotAnimations = {};
+    const attachmentAnimations = {
+      default: {}
+    };
 
     for (const p of this.exportParticles) {
       const id = String(p.id).padStart(3, "0");
@@ -158,12 +164,12 @@ window.COIN_EXPLOSION.ParticleSystem = class {
       slots.push({
         name: slotName,
         bone: boneName,
-        attachment: imageBasePath,
+        attachment: imageAttachment,
         color: "ffffffff"
       });
 
       skinAttachments[slotName] = {
-        [imageBasePath]: {
+        [imageAttachment]: {
           width: imageWidth,
           height: imageHeight,
           sequence: {
@@ -180,16 +186,16 @@ window.COIN_EXPLOSION.ParticleSystem = class {
         rotate: []
       };
 
-      slotColorAnimations[slotName] = {
-        [imageBasePath]: []
+      slotAnimations[slotName] = {
+        color: []
       };
 
-      sequenceAnimations[slotName] = {
-        [imageBasePath]: {
+      attachmentAnimations.default[slotName] = {
+        [imageAttachment]: {
           sequence: [
             {
               mode: "loop",
-              delay: imageDelay
+              delay: 1 / fps
             }
           ]
         }
@@ -197,7 +203,6 @@ window.COIN_EXPLOSION.ParticleSystem = class {
 
       let x = 0;
       let y = 0;
-      let vx = p.vx;
       let vy = p.vy;
 
       for (let frame = 0; frame <= totalFrames; frame++) {
@@ -212,7 +217,7 @@ window.COIN_EXPLOSION.ParticleSystem = class {
         } else if (time <= p.lifetime) {
           const dt = 1 / fps;
           vy += p.gravity * dt;
-          x += vx * dt;
+          x += p.vx * dt;
           y += vy * dt;
         }
 
@@ -220,24 +225,11 @@ window.COIN_EXPLOSION.ParticleSystem = class {
         const alpha = this.lerp(p.startOpacity, p.endOpacity, progress);
         const rotation = p.startRotation + p.rotationSpeed * aliveTime;
 
-        boneAnimations[boneName].translate.push({
-          time,
-          x,
-          y
-        });
+        boneAnimations[boneName].translate.push({ time, x, y });
+        boneAnimations[boneName].scale.push({ time, x: scale, y: scale });
+        boneAnimations[boneName].rotate.push({ time, value: rotation });
 
-        boneAnimations[boneName].scale.push({
-          time,
-          x: scale,
-          y: scale
-        });
-
-        boneAnimations[boneName].rotate.push({
-          time,
-          value: rotation
-        });
-
-        slotColorAnimations[slotName][imageBasePath].push({
+        slotAnimations[slotName].color.push({
           time,
           color: this.alphaToSpineColor(alpha)
         });
@@ -247,11 +239,11 @@ window.COIN_EXPLOSION.ParticleSystem = class {
     return {
       skeleton: {
         hash: "coin-explosion-export",
-        spine: settings.spineVersion || "4.3.21",
+        spine: spineVersion,
         x: -72,
         y: -71,
-        width: 144,
-        height: 142,
+        width: imageWidth,
+        height: imageHeight,
         images: "",
         audio: null
       },
@@ -266,7 +258,8 @@ window.COIN_EXPLOSION.ParticleSystem = class {
       animations: {
         explosion: {
           bones: boneAnimations,
-          slots: slotColorAnimations
+          slots: slotAnimations,
+          attachments: attachmentAnimations
         }
       }
     };
