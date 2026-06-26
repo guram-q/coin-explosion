@@ -9,17 +9,22 @@ window.COIN_EXPLOSION.SPINE = {
 };
 
 window.COIN_EXPLOSION.DEFAULT_SETTINGS = {
-  worldScale: 1,
-  particleCount: 40,
-  velocity: 500,
-  velocityRandomness: 0.5,
-  gravity: 700,
-  lifetime: 2,
-  startScale: 0.5,
-  endScale: 0.15,
-  startOpacity: 1,
-  endOpacity: 0,
-  rotation: 360,
-  rotationSpeed: 360
-  
+    worldScale: 0.4,
+
+    particleCount: 20,
+
+    velocity: 300,
+    velocityRandomness: 0.5,
+    gravity: 200,
+
+    lifetime: 0.7,
+
+    startScale: 0.5,
+    endScale: 0.15,
+
+    startOpacity: 1,
+    endOpacity: 0,
+
+    rotation: 360,
+    rotationSpeed: 360
 };
