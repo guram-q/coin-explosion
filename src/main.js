@@ -1,8 +1,7 @@
 (async () => {
   const canvasContainer = document.getElementById("canvasContainer");
 
-  document.getElementById("version").textContent =
-    "Version: " + window.COIN_EXPLOSION.VERSION;
+
 
   const app = new PIXI.Application();
 
