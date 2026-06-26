@@ -130,32 +130,10 @@ window.COIN_EXPLOSION.ParticleSystem = class {
     const duration = settings.lifetime * (1 + settings.lifetimeRandomness);
     const totalFrames = Math.ceil(duration * fps);
 
-    const imageFolder = "coins";
-    const imagePrefix = "coins_";
-    const imageFrameCount = 14;
-    const imageWidth = 128;
-    const imageHeight = 128;
-
     const bones = [{ name: "root" }];
     const slots = [];
     const boneAnimations = {};
     const slotAnimations = {};
-    const attachments = {};
-
-    for (let i = 0; i < imageFrameCount; i++) {
-      const imageName = `${imagePrefix}${String(i).padStart(5, "0")}`;
-
-      attachments[imageName] = {
-        [imageName]: {
-          type: "region",
-          path: `${imageFolder}/${imageName}`,
-          x: 0,
-          y: 0,
-          width: imageWidth,
-          height: imageHeight
-        }
-      };
-    }
 
     for (const p of this.exportParticles) {
       const boneName = `particle_${String(p.id).padStart(3, "0")}_bone`;
@@ -169,8 +147,7 @@ window.COIN_EXPLOSION.ParticleSystem = class {
       slots.push({
         name: slotName,
         bone: boneName,
-        color: "ffffffff",
-        attachment: `${imagePrefix}00000`
+        color: "ffffffff"
       });
 
       boneAnimations[boneName] = {
@@ -180,8 +157,7 @@ window.COIN_EXPLOSION.ParticleSystem = class {
       };
 
       slotAnimations[slotName] = {
-        color: [],
-        attachment: []
+        color: []
       };
 
       let x = 0;
@@ -209,21 +185,26 @@ window.COIN_EXPLOSION.ParticleSystem = class {
         const alpha = this.lerp(p.startOpacity, p.endOpacity, progress);
         const rotation = p.startRotation + p.rotationSpeed * aliveTime;
 
-        const imageFrame = frame % imageFrameCount;
-        const imageName = `${imagePrefix}${String(imageFrame).padStart(5, "0")}`;
+        boneAnimations[boneName].translate.push({
+          time,
+          x,
+          y
+        });
 
-        boneAnimations[boneName].translate.push({ time, x, y });
-        boneAnimations[boneName].scale.push({ time, x: scale, y: scale });
-        boneAnimations[boneName].rotate.push({ time, value: rotation });
+        boneAnimations[boneName].scale.push({
+          time,
+          x: scale,
+          y: scale
+        });
+
+        boneAnimations[boneName].rotate.push({
+          time,
+          value: rotation
+        });
 
         slotAnimations[slotName].color.push({
           time,
           color: this.alphaToSpineColor(alpha)
-        });
-
-        slotAnimations[slotName].attachment.push({
-          time,
-          name: imageName
         });
       }
     }
@@ -239,7 +220,7 @@ window.COIN_EXPLOSION.ParticleSystem = class {
       skins: [
         {
           name: "default",
-          attachments
+          attachments: {}
         }
       ],
       animations: {
