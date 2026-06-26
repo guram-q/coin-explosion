@@ -247,7 +247,7 @@ window.COIN_EXPLOSION.ParticleSystem = class {
     return {
       skeleton: {
         hash: "coin-explosion-export",
-        spine: "4.3.20",
+        spine: settings.spineVersion || "4.3.21",
         x: -72,
         y: -71,
         width: 144,

@@ -3,6 +3,7 @@ window.COIN_EXPLOSION = window.COIN_EXPLOSION || {};
 window.COIN_EXPLOSION.UI = {
   getSettings() {
     return {
+      spineVersion: document.getElementById("spineVersion").value,
       worldScale: Number(document.getElementById("worldScale").value),
       particleCount: Number(document.getElementById("particleCount").value),
       velocity: Number(document.getElementById("velocity").value),
