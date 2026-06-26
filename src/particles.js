@@ -266,12 +266,7 @@ window.COIN_EXPLOSION.ParticleSystem = class {
       animations: {
         explosion: {
           bones: boneAnimations,
-          slots: {
-            default: slotColorAnimations
-          },
-          attachments: {
-            default: sequenceAnimations
-          }
+          slots: slotColorAnimations
         }
       }
     };
