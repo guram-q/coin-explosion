@@ -4,8 +4,12 @@ window.COIN_EXPLOSION.ParticleSystem = class {
   constructor(app, SpineClass) {
     this.app = app;
     this.SpineClass = SpineClass;
+
+    this.world = new PIXI.Container();
     this.container = new PIXI.Container();
-    this.app.stage.addChild(this.container);
+
+    this.world.addChild(this.container);
+    this.app.stage.addChild(this.world);
 
     this.particles = [];
     this.settings = window.COIN_EXPLOSION.DEFAULT_SETTINGS;
@@ -26,8 +30,8 @@ window.COIN_EXPLOSION.ParticleSystem = class {
 
     const spineConfig = window.COIN_EXPLOSION.SPINE;
 
-    const emitX = this.app.screen.width / 2;
-    const emitY = this.app.screen.height / 2;
+    const emitX = 0;
+    const emitY = 0;
 
     for (let i = 0; i < settings.particleCount; i++) {
       const particleSpine = this.SpineClass.from({
@@ -37,7 +41,6 @@ window.COIN_EXPLOSION.ParticleSystem = class {
 
       particleSpine.x = emitX;
       particleSpine.y = emitY;
-
       particleSpine.scale.set(settings.startScale);
       particleSpine.alpha = settings.startOpacity;
 
@@ -57,21 +60,15 @@ window.COIN_EXPLOSION.ParticleSystem = class {
 
       const particle = {
         view: particleSpine,
-
         age: 0,
         lifetime: settings.lifetime,
-
         vx: Math.cos(angle) * speed,
         vy: Math.sin(angle) * speed,
-
         gravity: settings.gravity,
-
         startScale: settings.startScale,
         endScale: settings.endScale,
-
         startOpacity: settings.startOpacity,
         endOpacity: settings.endOpacity,
-
         rotationSpeed: this.degToRad(
           this.randomRange(-settings.rotationSpeed, settings.rotationSpeed)
         )
@@ -102,7 +99,12 @@ window.COIN_EXPLOSION.ParticleSystem = class {
       const scale = this.lerp(p.startScale, p.endScale, progress);
       p.view.scale.set(scale);
 
-      p.view.alpha = this.lerp(p.startOpacity, p.endOpacity, progress);
+      p.view.alpha = this.lerp(
+        p.startOpacity,
+        p.endOpacity,
+        progress
+      );
+
       p.view.rotation += p.rotationSpeed * dt;
 
       if (p.age >= p.lifetime) {

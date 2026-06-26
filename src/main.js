@@ -50,11 +50,12 @@
     const dt = ticker.deltaMS / 1000;
     const settings = window.COIN_EXPLOSION.UI.getSettings();
 
-    particleSystem.container.scale.set(settings.worldScale || 1);
-    particleSystem.container.position.set(
+    particleSystem.world.position.set(
       app.screen.width / 2,
       app.screen.height / 2
     );
+
+    particleSystem.container.scale.set(settings.worldScale || 1);
 
     particleSystem.update(dt);
   });
