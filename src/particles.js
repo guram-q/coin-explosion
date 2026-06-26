@@ -243,16 +243,14 @@ window.COIN_EXPLOSION.ParticleSystem = class {
           value: Number(rotation.toFixed(4))
         });
 
-        if (frame === 0) {
-            slotAnimations[slotName].alpha.push({
-                value: Number(alpha.toFixed(4))
-            });
-        } else {
-            slotAnimations[slotName].alpha.push({
-                time,
-                value: Number(alpha.toFixed(4))
-            });
-        }
+        slotAnimations[slotName].alpha.push({
+          value: Number(p.startOpacity.toFixed(4))
+        });
+
+        slotAnimations[slotName].alpha.push({
+          time: Number(p.lifetime.toFixed(4)),
+          value: Number(p.endOpacity.toFixed(4))
+        });
       }
     }
 
