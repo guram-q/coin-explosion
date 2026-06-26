@@ -187,7 +187,7 @@ window.COIN_EXPLOSION.ParticleSystem = class {
       };
 
       slotAnimations[slotName] = {
-        color: []
+        rgba: []
       };
 
       attachmentAnimations.default[slotName] = {
@@ -243,7 +243,7 @@ window.COIN_EXPLOSION.ParticleSystem = class {
           value: Number(rotation.toFixed(4))
         });
 
-        slotAnimations[slotName].color.push({
+        slotAnimations[slotName].rgba.push({
           time,
           color: this.alphaToSpineColor(alpha)
         });
