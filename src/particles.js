@@ -187,7 +187,7 @@ window.COIN_EXPLOSION.ParticleSystem = class {
       };
 
       slotAnimations[slotName] = {
-        rgba: []
+        alpha: []
       };
 
       attachmentAnimations.default[slotName] = {
@@ -243,10 +243,16 @@ window.COIN_EXPLOSION.ParticleSystem = class {
           value: Number(rotation.toFixed(4))
         });
 
-        slotAnimations[slotName].rgba.push({
-          time,
-          color: this.alphaToSpineColor(alpha)
-        });
+        if (frame === 0) {
+            slotAnimations[slotName].alpha.push({
+                value: Number(alpha.toFixed(4))
+            });
+        } else {
+            slotAnimations[slotName].alpha.push({
+                time,
+                value: Number(alpha.toFixed(4))
+            });
+        }
       }
     }
 
@@ -279,13 +285,7 @@ window.COIN_EXPLOSION.ParticleSystem = class {
     };
   }
 
-  alphaToSpineColor(alpha) {
-    const a = Math.round(this.clamp01(alpha) * 255)
-      .toString(16)
-      .padStart(2, "0");
 
-    return `ffffff${a}`;
-  }
 
   lerp(a, b, t) {
     return a + (b - a) * t;
