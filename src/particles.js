@@ -194,6 +194,7 @@ window.COIN_EXPLOSION.ParticleSystem = class {
         [imageAttachment]: {
           sequence: [
             {
+              time: 0,
               mode: "loop",
               delay: 1 / fps
             }
@@ -206,7 +207,7 @@ window.COIN_EXPLOSION.ParticleSystem = class {
       let vy = p.vy;
 
       for (let frame = 0; frame <= totalFrames; frame++) {
-        const time = frame / fps;
+        const time = Number((frame / fps).toFixed(4));
         const aliveTime = Math.min(time, p.lifetime);
         const progress = Math.min(aliveTime / p.lifetime, 1);
 
@@ -225,9 +226,22 @@ window.COIN_EXPLOSION.ParticleSystem = class {
         const alpha = this.lerp(p.startOpacity, p.endOpacity, progress);
         const rotation = p.startRotation + p.rotationSpeed * aliveTime;
 
-        boneAnimations[boneName].translate.push({ time, x, y });
-        boneAnimations[boneName].scale.push({ time, x: scale, y: scale });
-        boneAnimations[boneName].rotate.push({ time, value: rotation });
+        boneAnimations[boneName].translate.push({
+          time,
+          x: Number(x.toFixed(4)),
+          y: Number(y.toFixed(4))
+        });
+
+        boneAnimations[boneName].scale.push({
+          time,
+          x: Number(scale.toFixed(4)),
+          y: Number(scale.toFixed(4))
+        });
+
+        boneAnimations[boneName].rotate.push({
+          time,
+          value: Number(rotation.toFixed(4))
+        });
 
         slotAnimations[slotName].color.push({
           time,
