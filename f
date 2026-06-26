@@ -1,0 +1,32 @@
+[33mf8fa194[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m v2.6 added random opacity
+[33mfec9b84[m 2.5 change setting
+[33m4bb0a8d[m 2.4 change setting
+[33mbc799c0[m 2.4 change setting
+[33mcc98a88[m v2.3 added world scale
+[33mda83c3a[m v2.3 added world scale
+[33mcb2034a[m 2.2 n
+[33me724fd0[m 2.1 n
+[33ma49afc0[m 2.1 new step
+[33m09868a3[m 1.12 fix spine global
+[33m8d8d41d[m 1.12 fix spine global
+[33mcfa254c[m tired
+[33mb7d7ddc[m v1.9 - switch to vanilla Pixi Spine loader
+[33mfa549e9[m  v1.8 use coinData for skeleton and atlas
+[33m7461a69[m v1.7 - load spine with atlas data
+[33me3bd145[m v1.6 - direct spine from paths
+[33m4b712c8[m remove IIFE runtime
+[33mca3bc90[m next one
+[33m82ff51d[m fix spine import
+[33m0d54ae6[m register spine runtime
+[33m41b58dd[m Try Spine bundle loading
+[33m48643e6[m add visible version
+[33md0f5cf7[m Register Spine assets
+[33m8de116d[m Fix Spine direct loading
+[33m6b594d8[m Move Spine assets to assets/coin
+[33mc0b3e04[m rename setting.js. to settings.js
+[33m49bc431[m Load Spine animation
+[33m1c73852[m Add PixiJS preview
+[33m2aa3c49[m add pixi preview
+[33mf2433e2[m add edito layeout
+[33m64453de[m Project Structure and spine files
+[33m44dd876[m Initial commit

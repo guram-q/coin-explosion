@@ -18,6 +18,7 @@ window.COIN_EXPLOSION.DEFAULT_SETTINGS = {
     gravity: 200,
 
     lifetime: 0.7,
+    lifetimeRandomness: 0.5,
 
     startScale: 0.5,
     endScale: 0.15,

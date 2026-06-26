@@ -61,7 +61,10 @@ window.COIN_EXPLOSION.ParticleSystem = class {
       const particle = {
         view: particleSpine,
         age: 0,
-        lifetime: settings.lifetime,
+        lifetime: settings.lifetime * this.randomRange(
+            1 - settings.lifetimeRandomness,
+            1 + settings.lifetimeRandomness
+        ),
         vx: Math.cos(angle) * speed,
         vy: Math.sin(angle) * speed,
         gravity: settings.gravity,

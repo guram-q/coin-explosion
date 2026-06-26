@@ -9,6 +9,7 @@ window.COIN_EXPLOSION.UI = {
       velocityRandomness: Number(document.getElementById("velocityRandomness").value),
       gravity: Number(document.getElementById("gravity").value),
       lifetime: Number(document.getElementById("lifetime").value),
+      lifetimeRandomness: Number(document.getElementById("lifetimeRandomness").value),
       startScale: Number(document.getElementById("startScale").value),
       endScale: Number(document.getElementById("endScale").value),
       startOpacity: Number(document.getElementById("startOpacity").value),
